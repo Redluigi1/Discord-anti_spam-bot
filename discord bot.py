@@ -1,3 +1,4 @@
+#made by ayush.cse22
 from discord.ext import tasks
 import discord
 from discord.ext import commands 
