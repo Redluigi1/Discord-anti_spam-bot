@@ -47,7 +47,7 @@ def badhinword(x):
     
 
 
-        
+      
 
 @bot.event
 async def on_ready():
@@ -97,19 +97,28 @@ async def on_message(message):
             
             
         for z in regex:
-            if regex[z][0] == 1 or '1':           #if security level is 1, the message is silently deleted
-                await message.delete()             
-            elif regex[z][0] == 2 or '2':           #if security level is 2, the op gets a warning
-                await message.delete()
-                await message.author.send('This is a warning. Please do not spam the coding club server')
-            elif regex[z][0] == 3 or '3':
-                await message.delete()            #if security level is 3, op gets kicked out
-                try:
-                    await bot.kick(message.author)
-                except:
-                    pass
-            else:
-                pass
+            if bool(re.search(regex[z][1],message.content)):
+                
+                if regex[z][0] == '3':
+                    await message.delete()            #if security level is 3, op gets kicked out
+                    try:
+                        await bot.kick(message.author)
+                    except:
+                        pass
+                    break
+                    
+                    
+                if regex[z][0] == '2':           #if security level is 2, the op gets a warning
+                    await message.author.send('Please do not spam the Coding Club server')
+                    await message.delete()
+    
+                    
+                if regex[z][0] == '1':           #if security level is 1, the message is silently deleted
+                    await message.delete()             
+
+                    
+
+               
                     
                 
 
@@ -122,14 +131,16 @@ async def on_message(message):
         
 
         message_log[message.id] = message.content
+        
+        await bot.process_commands(message)
     
     
-@tasks.loop(seconds= 60)
+@tasks.loop(seconds= 30)
 async def printer():
     for x in frequencydict:
-        if frequencydict[x] > 50:
+        if frequencydict[x] > 25:
             try:
-                await bot.kick(x)         #if anyone sends more than 50 messages in 1 minute, he gets kicked out
+                await bot.kick(x)         #if anyone sends more than 25 messages in 0.5 minutes, he gets kicked out
             except:
                 pass
     frequencydict.clear()                   # the frequency dictionary is resetted after every 1 minute
@@ -139,9 +150,10 @@ async def printer():
 async def fun():
     message_log.clear()                     #this resets the log after every 24 hours
     
+    
       
         
-        
+    
    
         
     
