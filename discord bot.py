@@ -1,3 +1,4 @@
+#madew by ayush.cse22
 import datetime
 from discord.ext import tasks
 import discord
@@ -99,13 +100,11 @@ async def on_message(message):
             if bool(re.search(regex[z][1],message.content)):
                 
                 if regex[z][0] == '3':
-                    await message.delete()            #if security level is 3, op gets kicked out
                     try:
-                        await bot.kick(message.author)
+                        await message.delete()            #if security level is 3, op gets kicked out
+                        await discord.Member.kick(message.author)
                     except:
-                        pass
-                    break
-                    
+                       pass
                     
                 if regex[z][0] == '2':           #if security level is 2, the op gets a warning
                     await message.author.send('Please do not spam the Coding Club server')
@@ -139,7 +138,7 @@ async def printer():
     for x in frequencydict:
         if frequencydict[x] > 25:
             try:
-                await bot.kick(x)         #if anyone sends more than 25 messages in 0.5 minutes, he gets kicked out
+                 await discord.Member.kick(x)        #if anyone sends more than 25 messages in 0.5 minutes, he gets kicked out
             except:
                 pass
     frequencydict.clear()                   # the frequency dictionary is resetted after every 1 minute
