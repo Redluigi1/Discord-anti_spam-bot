@@ -1,13 +1,12 @@
-#made by ayush.cse22
+import datetime
 from discord.ext import tasks
 import discord
 from discord.ext import commands 
 import re
-TOKEN = ''
+TOKEN = 'MTA1ODI0NTkzNjc1ODkxOTE2OA.GNfG9a.XrMPYmdGh7Qtkxu-P5CeoKAuGkITFcfwg0ZM28'
 bot = commands.Bot(command_prefix ='!',intents = discord.Intents.all())
 frequencydict = {}                  #this dictionary will maintain the frequency of messages sent by people to prevent spam
 regex = {}                          #this dictionary has all the regex 
-message_log ={}                     #this dictionary maintains the log of all  messsages sent; gets reset after every 24 hours
 badenglist = []                     
 with open('eng.csv') as d:
     for x in d:
@@ -52,7 +51,7 @@ def badhinword(x):
 @bot.event
 async def on_ready():
     printer.start()
-    fun.start()
+   
     print('online')
     
     
@@ -76,9 +75,9 @@ async def remove_regex(ctx,arg):
     
 @bot.command()
 async def pattern_regex(ctx,arg):
-    for x in message_log:                                   # if the bot is unable to stop the spam attack, this can be used to remove all messages of last day satisfying a particular regex check
-        if bool(re.search(arg,message_log[x])):
-            msg = await ctx.channel.fetch_message(x)
+    async for x in ctx.channel.history(after = datetime.datetime.now() - datetime.timedelta(hours = 24)):                                   # if the bot is unable to stop the spam attack, this can be used to remove all messages of last day satisfying a particular regex check
+        if bool(re.search(arg,x.content)):
+            msg = await ctx.channel.fetch_message(x.id)
             
             await msg.delete()
             
@@ -130,7 +129,7 @@ async def on_message(message):
                 
         
 
-        message_log[message.id] = message.content
+       
         
         await bot.process_commands(message)
     
@@ -146,9 +145,6 @@ async def printer():
     frequencydict.clear()                   # the frequency dictionary is resetted after every 1 minute
 
 
-@tasks.loop(hours = 24)
-async def fun():
-    message_log.clear()                     #this resets the log after every 24 hours
     
     
       
