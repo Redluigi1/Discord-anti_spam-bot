@@ -1,10 +1,11 @@
-#madew by ayush.cse22
+#made by ayush.cse22
 import datetime
 from discord.ext import tasks
 import discord
 from discord.ext import commands 
 import re
-TOKEN = ''
+
+TOKEN = 'MTA1ODI0NTkzNjc1ODkxOTE2OA.G5KhF4.IMhVwZErf2Fd79y6Ph_BiUlmIdFWREzL93cEtU'
 bot = commands.Bot(command_prefix ='!',intents = discord.Intents.all())
 frequencydict = {}                  #this dictionary will maintain the frequency of messages sent by people to prevent spam
 regex = {}                          #this dictionary has all the regex 
@@ -61,7 +62,8 @@ async def on_ready():
     
 @bot.command()
 async def add_regex(ctx,arg1,arg2):
-    regex[len(regex)] = [arg1,arg2]                        # arg1 = security level(1,2 or 3); arg2 = regex string 
+    regex[str(len(regex)) + str(arg1)+str(arg2)] = [arg1,arg2] 
+                       # arg1 = security level(1,2 or 3); arg2 = regex string 
     
 @bot.command()
 async def print_regex(ctx):
@@ -70,7 +72,8 @@ async def print_regex(ctx):
 @bot.command()
 async def remove_regex(ctx,arg):
     try:
-        del regex[int(arg)]                                 # to remove a particular regex check; arg is the key of the regex check
+        del regex[int(arg)]
+                                         # to remove a particular regex check; arg is the key of the regex check
     except:
         pass
     
