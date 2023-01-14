@@ -5,7 +5,7 @@ import discord
 from discord.ext import commands 
 import re
 
-TOKEN = 'MTA1ODI0NTkzNjc1ODkxOTE2OA.G5KhF4.IMhVwZErf2Fd79y6Ph_BiUlmIdFWREzL93cEtU'
+TOKEN = ''
 bot = commands.Bot(command_prefix ='!',intents = discord.Intents.all())
 frequencydict = {}                  #this dictionary will maintain the frequency of messages sent by people to prevent spam
 regex = {}                          #this dictionary has all the regex 
